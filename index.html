@@ -15,14 +15,7 @@
       <h2>오늘 할 일</h2>
     </section>
     <section>
-      <ul id="task-conatiner">
-        <li class="task">
-          <input type="checkbox" id="task-1" />
-          <label for="task-1">
-            <span class="checker"></span>
-            독서하기
-          </label>
-        </li>
+      <ul id="task-container">
       </ul>
       <form id="new-task-form">
         <input type="text" id="new-task-input">
@@ -33,5 +26,15 @@
   <footer>
     <p>© 2021. Captain. all rights reserved.</p>
   </footer>
+  <!-- task template -->
+  <template id="task-template">
+    <li class="task">
+      <input type="checkbox" />
+      <label>
+        <span class="checker"></span>
+      </label>
+    </li>
+  </template>
+  <script type="module" src="index.js"></script>
 </body>
 </html>
