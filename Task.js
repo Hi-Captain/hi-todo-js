@@ -4,4 +4,8 @@ export default class Task {
     this.title = title
     this.isCompleted = isCompleted
   }
+
+  toggleCompleted() {
+    this.isCompleted = !this.isCompleted
+  }
 }

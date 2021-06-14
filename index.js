@@ -5,10 +5,15 @@ const taskTemplate = document.querySelector('#task-template')
 const newTaskForm = document.querySelector('#new-task-form')
 const newTaskInput = document.querySelector('#new-task-input')
 
+const getTaskElement = (taskId) => document.querySelector(`#task-${taskId}`)
+
 let taskData = [{
   taskId: Date.now().toString(),
   title: '독서하기',
-  isCompleted: false,
+  isCompleted: true,
+  toggleCompleted() {
+    this.isCompleted = !this.isCompleted
+  },
 }]
 
 function renderTask({taskId, isCompleted, title}) {
@@ -18,9 +23,12 @@ function renderTask({taskId, isCompleted, title}) {
   const label = taskNode.querySelector('label')
   const deleteBtn = taskNode.querySelector('#delete-btn')
 
+  if (isCompleted) taskElement.classList.add('isCompleted')
+
   taskElement.id = `task-${taskId}`
 
   checkbox.id = `task-input-${taskId}`
+  checkbox.dataset.taskId = taskId
   checkbox.checked = isCompleted
 
   label.htmlFor = `task-input-${taskId}`
@@ -45,17 +53,26 @@ function submitNewTaskForm(e) {
 }
 
 function deleteTask(taskId) {
-  const targetElement = document.querySelector(`#task-${taskId}`)
+  const targetElement = getTaskElement(taskId)
   
   taskData = taskData.filter(task => task.taskId !== taskId)
 
   targetElement.remove()
 }
 
+function toggleTaskState(taskId) {
+  const targetData = taskData.find(el => el.taskId === taskId)
+  const targetElement = getTaskElement(taskId)
+
+  targetData.toggleCompleted()
+  targetElement.classList.toggle('isCompleted')
+}
+
 function clickTaskContainer(e) {
-  const { id, dataset } = e.target
+  const { id, dataset, tagName } = e.target
 
   if (id === 'delete-btn') deleteTask(dataset.taskId)
+  if (tagName.toLowerCase() === 'input') toggleTaskState(dataset.taskId)
 }
 
 function initRender() {
